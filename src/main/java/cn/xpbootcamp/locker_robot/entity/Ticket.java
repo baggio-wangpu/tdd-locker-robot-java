@@ -1,4 +1,4 @@
-package cn.xpbootcamp.locker_robot;
+package cn.xpbootcamp.locker_robot.entity;
 
 import lombok.AllArgsConstructor;
 
