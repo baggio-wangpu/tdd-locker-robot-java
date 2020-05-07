@@ -1,5 +1,6 @@
 package cn.xpbootcamp.locker_robot;
 
+import cn.xpbootcamp.locker_robot.exception.LockFullException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,9 +15,9 @@ public class Locker {
   public Ticket store(Package pack) {
     if (!isFull()) {
       used ++;
-      return new Ticket();
+      return new Ticket(pack);
     }
-    return null;
+    throw new LockFullException("Lock is full...");
   }
 
   private boolean isFull() {
