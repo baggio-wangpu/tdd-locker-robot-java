@@ -4,6 +4,7 @@ import cn.xpbootcamp.locker_robot.entity.Locker;
 import cn.xpbootcamp.locker_robot.entity.Package;
 import cn.xpbootcamp.locker_robot.entity.Ticket;
 import cn.xpbootcamp.locker_robot.exception.LockFullException;
+import cn.xpbootcamp.locker_robot.exception.TicketInvalidException;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class LockerRobot {
   public Ticket store(Package pack) {
     if (!isFull()) {
       locker.setUsed(locker.getUsed() + 1);
-      Ticket ticket = new Ticket(pack);
+      Ticket ticket = new Ticket();
       storedPacks.put(ticket, pack);
       return ticket;
     }
@@ -37,7 +38,7 @@ public class LockerRobot {
       locker.setUsed(locker.getUsed() - 1);
       return storedPacks.get(ticket);
     }
-    return null;
+    throw new TicketInvalidException("Ticket is invalid...");
   }
 
   private boolean isFull() {

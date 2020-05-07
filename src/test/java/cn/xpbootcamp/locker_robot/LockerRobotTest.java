@@ -4,9 +4,11 @@ import cn.xpbootcamp.locker_robot.entity.Locker;
 import cn.xpbootcamp.locker_robot.entity.Package;
 import cn.xpbootcamp.locker_robot.entity.Ticket;
 import cn.xpbootcamp.locker_robot.exception.LockFullException;
+import cn.xpbootcamp.locker_robot.exception.TicketInvalidException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LockerRobotTest {
 
@@ -58,14 +60,13 @@ class LockerRobotTest {
   void should_get_package_failed_when_provide_ticket_given_ticket_is_invalid() {
     // given:
     Locker locker = new Locker(4);
-    Package storedPack = new Package();
     LockerRobot lockerRobot = new LockerRobot(locker);
-    Ticket ticket = lockerRobot.store(storedPack);
 
     // when:
-    Ticket invalidTicket = new Ticket(null);
-    Package pack = lockerRobot.get(invalidTicket);
+    Ticket invalidTicket = new Ticket();
+    TicketInvalidException ticketInvalidException = assertThrows(TicketInvalidException.class,
+        () -> lockerRobot.get(invalidTicket));
     // then:
-    assertNotEquals(storedPack, pack);
+    assertEquals("Ticket is invalid...", ticketInvalidException.getMessage());
   }
 }
