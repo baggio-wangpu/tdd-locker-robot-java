@@ -39,4 +39,33 @@ class LockerRobotTest {
     assertEquals("Lock is full...", lockFullException.getMessage());
     assertEquals(5, locker.getUsed());
   }
+
+  @Test
+  void should_get_package_successfully_when_provide_ticket_given_ticket_is_valid() {
+    // given:
+    Locker locker = new Locker(4);
+    Package storedPack = new Package();
+    LockerRobot lockerRobot = new LockerRobot(locker);
+    Ticket ticket = lockerRobot.store(storedPack);
+
+    // when:
+    Package pack = lockerRobot.get(ticket);
+    // then:
+    assertEquals(storedPack, pack);
+  }
+
+  @Test
+  void should_get_package_failed_when_provide_ticket_given_ticket_is_invalid() {
+    // given:
+    Locker locker = new Locker(4);
+    Package storedPack = new Package();
+    LockerRobot lockerRobot = new LockerRobot(locker);
+    Ticket ticket = lockerRobot.store(storedPack);
+
+    // when:
+    Ticket invalidTicket = new Ticket(null);
+    Package pack = lockerRobot.get(invalidTicket);
+    // then:
+    assertNotEquals(storedPack, pack);
+  }
 }

@@ -4,23 +4,40 @@ import cn.xpbootcamp.locker_robot.entity.Locker;
 import cn.xpbootcamp.locker_robot.entity.Package;
 import cn.xpbootcamp.locker_robot.entity.Ticket;
 import cn.xpbootcamp.locker_robot.exception.LockFullException;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static cn.xpbootcamp.locker_robot.entity.Locker.CAPACTITY;
 
 @Getter
-@AllArgsConstructor
 public class LockerRobot {
 
   private Locker locker;
+  private Map<Ticket, Package> storedPacks = new HashMap<>();
+
+  public LockerRobot(Locker locker) {
+    this.locker = locker;
+  }
 
   public Ticket store(Package pack) {
     if (!isFull()) {
       locker.setUsed(locker.getUsed() + 1);
-      return new Ticket(pack);
+      Ticket ticket = new Ticket(pack);
+      storedPacks.put(ticket, pack);
+      return ticket;
     }
     throw new LockFullException("Lock is full...");
+  }
+
+
+  public Package get(Ticket ticket) {
+    if (storedPacks.containsKey(ticket)) {
+      locker.setUsed(locker.getUsed() - 1);
+      return storedPacks.get(ticket);
+    }
+    return null;
   }
 
   private boolean isFull() {
