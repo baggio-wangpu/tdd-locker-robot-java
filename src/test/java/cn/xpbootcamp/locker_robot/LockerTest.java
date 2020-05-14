@@ -2,7 +2,7 @@ package cn.xpbootcamp.locker_robot;
 
 import cn.xpbootcamp.locker_robot.entity.Package;
 import cn.xpbootcamp.locker_robot.entity.Ticket;
-import cn.xpbootcamp.locker_robot.exception.LockFullException;
+import cn.xpbootcamp.locker_robot.exception.LockerFullException;
 import cn.xpbootcamp.locker_robot.exception.TicketInvalidException;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ class LockerTest {
     }
 
     // when, then:
-    assertThrows(LockFullException.class, () -> locker.store(new Package()));
+    assertThrows(LockerFullException.class, () -> locker.store(new Package()));
   }
 
   @Test

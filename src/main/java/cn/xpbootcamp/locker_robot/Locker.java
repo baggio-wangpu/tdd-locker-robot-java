@@ -2,7 +2,7 @@ package cn.xpbootcamp.locker_robot;
 
 import cn.xpbootcamp.locker_robot.entity.Package;
 import cn.xpbootcamp.locker_robot.entity.Ticket;
-import cn.xpbootcamp.locker_robot.exception.LockFullException;
+import cn.xpbootcamp.locker_robot.exception.LockerFullException;
 import cn.xpbootcamp.locker_robot.exception.TicketInvalidException;
 import lombok.Getter;
 
@@ -26,18 +26,20 @@ public class Locker {
       storedPacks.put(ticket.getPackageId(), pack);
       return ticket;
     }
-    throw new LockFullException("Lock is full...");
+    throw new LockerFullException();
   }
 
 
   public Package get(Ticket ticket) {
     if (storedPacks.containsKey(ticket.getPackageId())) {
-      return storedPacks.get(ticket.getPackageId());
+      Package pack = storedPacks.get(ticket.getPackageId());
+      storedPacks.remove(ticket.getPackageId());
+      return pack;
     }
-    throw new TicketInvalidException("Ticket is invalid...");
+    throw new TicketInvalidException();
   }
 
-  private boolean isFull() {
+  public boolean isFull() {
     return storedPacks.size() >= capacity;
   }
 }
