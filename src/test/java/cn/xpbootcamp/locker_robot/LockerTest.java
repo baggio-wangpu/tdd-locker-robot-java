@@ -28,7 +28,7 @@ class LockerTest {
   void should_store_package_failed_when_store_package_given_locker_is_full() {
     // given:
     Locker locker = new Locker(5);
-    for (int i = 0; i < locker.getCapacity(); i++) {
+    for (int i = 0; i < 5; i++) {
       Package pack = new Package();
       locker.store(pack);
     }

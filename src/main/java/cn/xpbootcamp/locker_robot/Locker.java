@@ -4,13 +4,11 @@ import cn.xpbootcamp.locker_robot.entity.Package;
 import cn.xpbootcamp.locker_robot.entity.Ticket;
 import cn.xpbootcamp.locker_robot.exception.LockerFullException;
 import cn.xpbootcamp.locker_robot.exception.TicketInvalidException;
-import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Getter
 public class Locker {
 
   private int capacity;
@@ -41,5 +39,9 @@ public class Locker {
 
   public boolean isFull() {
     return storedPacks.size() >= capacity;
+  }
+
+  public boolean isPackageAvailable(Ticket ticket) {
+    return storedPacks.containsKey(ticket.getPackageId());
   }
 }

@@ -27,7 +27,7 @@ class LockerRobotTest {
     Ticket ticket = lockerRobot.store(pack);
 
     // then:
-    assertEquals(locker1.getStoredPacks().get(ticket.getPackageId()), pack);
+    assertTrue(locker1.isPackageAvailable(ticket));
     assertNotNull(ticket);
   }
 
@@ -50,7 +50,7 @@ class LockerRobotTest {
     Ticket ticket = lockerRobot.store(pack);
 
     // then:
-    assertEquals(lockers.get(lockers.size() - 1).getStoredPacks().get(ticket.getPackageId()), pack);
+    assertTrue(lockers.get(lockers.size() - 1).isPackageAvailable(ticket));
     assertNotNull(ticket);
   }
 
@@ -58,7 +58,7 @@ class LockerRobotTest {
   void should_store_package_failed_when_store_package_given_all_lockers_are_full() {
     // given:
     Locker locker = new Locker(5);
-    for (int i = 0; i < locker.getCapacity(); i++) {
+    for (int i = 0; i < 5; i++) {
       Package pack = new Package();
       locker.store(pack);
     }

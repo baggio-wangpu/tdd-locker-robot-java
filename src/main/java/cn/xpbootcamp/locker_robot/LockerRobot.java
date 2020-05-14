@@ -32,7 +32,7 @@ public class LockerRobot {
 
   public Package get(Ticket ticket) {
     Optional<Locker> storedLocker = lockerList.stream()
-        .filter(locker -> locker.getStoredPacks().containsKey(ticket.getPackageId()))
+        .filter(locker -> locker.isPackageAvailable(ticket))
         .findFirst();
     if (storedLocker.isPresent()) {
       return storedLocker.get().get(ticket);
