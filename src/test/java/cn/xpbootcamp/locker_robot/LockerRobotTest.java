@@ -5,8 +5,6 @@ import cn.xpbootcamp.locker_robot.entity.Ticket;
 import cn.xpbootcamp.locker_robot.exception.AllLockersFullException;
 import cn.xpbootcamp.locker_robot.exception.TicketInvalidException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,13 +29,12 @@ class LockerRobotTest {
     assertNotNull(ticket);
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = {2, 5, 100})
-  void should_get_ticket_and_stored_in_lockerN_when_store_package_given_lockers_1_to_n_minus_1_are_full(int n) {
+  @Test
+  void should_get_ticket_and_stored_in_lockerN_when_store_package_given_one_locker_has_space() {
     // given:
     Package pack = new Package();
     ArrayList<Locker> lockers = new ArrayList<>();
-    for (int i = 0; i < n - 1; i++) {
+    for (int i = 0; i < 4; i++) {
       Locker locker = new Locker(1);
       locker.store(new Package());
       lockers.add(locker);

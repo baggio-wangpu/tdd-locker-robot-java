@@ -6,7 +6,6 @@ import cn.xpbootcamp.locker_robot.exception.AllLockersFullException;
 import cn.xpbootcamp.locker_robot.exception.TicketInvalidException;
 
 import java.util.List;
-import java.util.Optional;
 
 public class LockerRobot {
 
@@ -17,27 +16,16 @@ public class LockerRobot {
   }
 
   public Ticket store(Package pack) {
-    Ticket ticket = null;
-    for(Locker locker : lockerList) {
-      if (!locker.isFull()) {
-        ticket = locker.store(pack);
-        break;
-      }
-    }
-    if (ticket == null) {
-      throw new AllLockersFullException();
-    }
-    return ticket;
+    return lockerList.stream()
+        .filter(locker -> !locker.isFull())
+        .findFirst().map(locker -> locker.store(pack))
+        .orElseThrow(AllLockersFullException::new);
   }
 
   public Package get(Ticket ticket) {
-    Optional<Locker> storedLocker = lockerList.stream()
+    return lockerList.stream()
         .filter(locker -> locker.isPackageAvailable(ticket))
-        .findFirst();
-    if (storedLocker.isPresent()) {
-      return storedLocker.get().get(ticket);
-    } else {
-      throw new TicketInvalidException();
-    }
+        .findFirst().map(locker -> locker.get(ticket))
+        .orElseThrow(TicketInvalidException::new);
   }
 }
